@@ -1,24 +1,52 @@
 version: '3.7'
 services:
   web:
+    container_name: web
     image: nginx:alpine
+    networks:
+      - frontend
     ports:
       - "80:80"
     volumes:
       - ./:/var/www/html
       - ./docker/conf/default.conf:/etc/nginx/conf.d/default.conf
   php:
+    container_name: php
     build:
       context: ./docker
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./:/var/www/html
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
   mysql:
+    container_name: mysql
+    restart: always
     image: mysql:latest
+    networks:
+      - backend
     ports:
       - "3306:3306"
+    env_file:
+      - ./.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: webapp
-      MYSQL_USER: webapp
-      MYSQL_PASSWORD: root
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      
+networks:
+  frontend:
+  backend:      
+
+      

@@ -1,5 +1,5 @@
 {
-  "name": "jlucki/docker-php-dev-env",
+  "name": "tahmurath/docker-lamp",
   "description": "A simple web development environment using Docker with NGINX, PHP, MySQL and Xdebug.",
   "type": "project",
   "keywords": [
