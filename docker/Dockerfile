@@ -13,3 +13,17 @@ RUN apt-get update && apt-get install -y \
     if [ $WITH_XDEBUG = "true" ] ; then \
         pecl install xdebug; \
     fi ;
+
+
+RUN apt-get -y install git
+RUN apt-get -y install vim
+RUN apt-get -y install wget
+RUN git config --global user.email "hamidreza.tahmooresi@gmail.com"
+#RUN curl -sS https://get.symfony.com/cli/installer | bash
+# RUN wget https://get.symfony.com/cli/installer
+# RUN /bin/bash -c ./installer
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN /root/.symfony5/bin/symfony new /var/www/html/app --version=6.3.* --webapp
+RUN export PATH="$HOME/.symfony5/bin:$PATH"
+
+
