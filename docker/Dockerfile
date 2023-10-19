@@ -23,7 +23,9 @@ RUN git config --global user.email "hamidreza.tahmooresi@gmail.com"
 # RUN wget https://get.symfony.com/cli/installer
 # RUN /bin/bash -c ./installer
 RUN wget https://get.symfony.com/cli/installer -O - | bash
-RUN /root/.symfony5/bin/symfony new /var/www/html/app --version=6.3.* --webapp
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php
+RUN /root/.symfony5/bin/symfony new /var/www/html/ --version=6.3.* --webapp
 RUN export PATH="$HOME/.symfony5/bin:$PATH"
 
 
